@@ -78,6 +78,8 @@ router.put('/', (req, res) => {
 
 router.delete('/', (req, res) => {
   const queryText = 'DELETE FROM plant WHERE id=$1';
+  console.log(req.query.id);
+  
   pool.query(queryText, [req.query.id])
     .then(() => { res.sendStatus(200); })
     .catch((err) => {

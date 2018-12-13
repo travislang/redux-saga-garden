@@ -35,9 +35,15 @@ function* addPlant(action) {
     yield call(axios.post, '/api/plant', action.payload)
     yield put({type: 'FETCH_PLANTS'})
 }
+
+function* deletePlant(action) {
+    yield call(axios.delete, `/api/plant?id=${action.payload}`)
+    yield put({type: 'FETCH_PLANTS'})
+}
 function* watcherSaga() {
     yield takeEvery('FETCH_PLANTS', fetchPlants);
     yield takeEvery('ADD_PLANT', addPlant);
+    yield takeEvery('DELETE_PLANT', deletePlant)
 }
 
 const sagaMiddleware = createSagaMiddleware();
