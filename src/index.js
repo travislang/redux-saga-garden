@@ -27,12 +27,17 @@ const plantList = (state = startingPlantArray, action) => {
 };
 
 function* fetchPlants() {
-    const plantsRes = yield call('/api/plants')
-    yield put({type: 'SET_PLANTS', payload: plantsRes})
+    const plantsRes = yield call(axios.get, '/api/plant')
+    yield put({type: 'SET_PLANTS', payload: plantsRes.data})
 }
 
+function* addPlant(action) {
+    yield call(axios.post, '/api/plant', action.payload)
+    yield put({type: 'FETCH_PLANTS'})
+}
 function* watcherSaga() {
     yield takeEvery('FETCH_PLANTS', fetchPlants);
+    yield takeEvery('ADD_PLANT', addPlant);
 }
 
 const sagaMiddleware = createSagaMiddleware();
